@@ -1,44 +1,44 @@
 """
 The RestAPI class provides a simple RESTful API interface for managing user data. Here's an overview of the approach:
 
-1. **Class Structure**:
+1. Class Structure:
     - The class maintains a `user_database` dictionary to store user data.
     - Separate dictionaries `get_handlers` and `post_handlers` are used to map URLs to corresponding handler methods.
 
-2. **Initialization**:
+2. Initialization:
     - In the `__init__` method, the user-provided database (if any) is assigned to `user_database`.
     - Default handlers for GET and POST requests are set for the `/users`, `/add`, and `/iou` endpoints.
 
-3. **GET and POST Handling**:
+3. GET and POST Handling:
     - The `get` and `post` methods handle HTTP GET and POST requests respectively by delegating to the `execute_handler` method.
     - The `execute_handler` method retrieves the appropriate handler function for the given URL from the corresponding dictionary.
 
-4. **Handler Execution**:
+4. Handler Execution:
     - The handler functions defined for various endpoints process the requests and return the appropriate responses.
     - Handlers are responsible for validating input, performing operations on the user database, and generating responses.
 
-5. **User Management**:
+5. User Management:
     - The `get_users`, `get_named_users`, and `add_user` methods handle user-related requests.
     - `get_users` returns a JSON string of all users or filtered users based on provided names.
     - `add_user` adds a new user to the database if it doesn't already exist.
     - `get_named_users` filters users based on provided names.
 
-6. **IOU Management**:
+6. IOU Management:
     - The `add_iou` method handles IOU-related requests.
     - It parses the payload to extract lender, borrower, and amount information.
     - It adjusts balances for both lender and borrower accordingly and updates the user database.
     - The method ensures that both lender and borrower exist in the database before proceeding.
 
-7. **Balances Adjustment**:
+7. Balances Adjustment:
     - The `adjust_balances` method updates balances for a user after an IOU is added.
     - It determines the appropriate balance types (`owes` or `owed_by`) based on whether the user is the lender or borrower.
     - It adjusts balances and handles cases where previous balances need to be cancelled or reduced.
 
-8. **Error Handling**:
+8. Error Handling:
     - Various exceptions are raised to handle error conditions such as missing keys in payload, user not found, etc.
     - Exceptions provide informative error messages to aid in debugging and troubleshooting.
 
-9. **Utility Methods**:
+9. Utility Methods:
     - Utility methods like `create_user`, `increase_named_balance`, and `find_user` are used to perform common tasks in a modular manner.
     
 """

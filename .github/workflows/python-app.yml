@@ -30,7 +30,8 @@ jobs:
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Test with pytest
       run: |
-        pytest --continue-on-collection-errors
+       git fetch --no-tags --prune --depth=1 origin +refs/heads/*:refs/remotes/origin/*
+       git diff origin/main HEAD --name-only -- practice | xargs dirname | sort | uniq | xargs pytest
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names

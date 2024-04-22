@@ -1,22 +1,33 @@
-# -*- coding: utf-8 -*-
+"""
+This script formats ledger entries into tables for different currencies and locales.
+
+Approach:
+- `create_entry`: Creates a `LedgerEntry` object with parsed date.
+- `format_entries`: Formats entries into a table.
+  - Supports 'en_US' and 'nl_NL' locales.
+  - Generates a header row and sorts entries.
+  - Formats date and truncates descriptions.
+  - Formats change according to currency.
+"""
+
 from datetime import datetime
-
-
+ 
+ 
 class LedgerEntry:
     def __init__(self):
         self.date = None
         self.description = None
         self.change = None
-
-
+ 
+ 
 def create_entry(date, description, change):
     entry = LedgerEntry()
     entry.date = datetime.strptime(date, '%Y-%m-%d')
     entry.description = description
     entry.change = change
     return entry
-
-
+ 
+ 
 def format_entries(currency, locale, entries):
     if locale == 'en_US':
         # Generate Header Row
@@ -29,10 +40,10 @@ def format_entries(currency, locale, entries):
         table += '| Change'
         for _ in range(7):
             table += ' '
-
+ 
         while len(entries) > 0:
             table += '\n'
-
+ 
             # Find next entry in order
             min_entry_index = -1
             for i in range(len(entries)):
@@ -59,7 +70,7 @@ def format_entries(currency, locale, entries):
                     continue
             entry = entries[min_entry_index]
             entries.pop(min_entry_index)
-
+ 
             # Write entry date to table
             month = entry.date.month
             month = str(month)
@@ -80,7 +91,7 @@ def format_entries(currency, locale, entries):
             date_str += year
             table += date_str
             table += ' | '
-
+ 
             # Write entry description to table
             # Truncate if necessary
             if len(entry.description) > 25:
@@ -94,7 +105,7 @@ def format_entries(currency, locale, entries):
                     else:
                         table += ' '
             table += ' | '
-
+ 
             # Write entry change to table
             if currency == 'USD':
                 change_str = ''
@@ -172,10 +183,10 @@ def format_entries(currency, locale, entries):
         table += '| Verandering'
         for _ in range(2):
             table += ' '
-
+ 
         while len(entries) > 0:
             table += '\n'
-
+ 
             # Find next entry in order
             min_entry_index = -1
             for i in range(len(entries)):
@@ -202,7 +213,7 @@ def format_entries(currency, locale, entries):
                     continue
             entry = entries[min_entry_index]
             entries.pop(min_entry_index)
-
+ 
             # Write entry date to table
             day = entry.date.day
             day = str(day)
@@ -223,7 +234,7 @@ def format_entries(currency, locale, entries):
             date_str += year
             table += date_str
             table += ' | '
-
+ 
             # Write entry description to table
             # Truncate if necessary
             if len(entry.description) > 25:
@@ -237,7 +248,7 @@ def format_entries(currency, locale, entries):
                     else:
                         table += ' '
             table += ' | '
-
+ 
             # Write entry change to table
             if currency == 'USD':
                 change_str = '$ '
@@ -296,4 +307,4 @@ def format_entries(currency, locale, entries):
                     change_str = ' ' + change_str
                 table += change_str
         return table
-
+ 

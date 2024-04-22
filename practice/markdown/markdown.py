@@ -1,7 +1,14 @@
 import re
 
-
 def parse(markdown):
+    """Parses markdown text into HTML.
+
+    Args:
+        markdown (str): The markdown text to be parsed.
+
+    Returns:
+        str: The HTML representation of the parsed markdown.
+    """
     lines = markdown.split('\n')
     res = ''
     in_list = False
